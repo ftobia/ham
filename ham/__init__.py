@@ -15,6 +15,16 @@ class Word(object):
     def __repr__(self):
         return '<Word "{!s}">'.format(self)
 
+    def __iter__(self):
+        return iter(self._letters)
+
+    def __eq__(self, other):
+        return (type(self) is type(other) and
+                self._letters == other._letters)
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def __contains__(self, obj):
         return obj in str(self)
 
@@ -34,7 +44,7 @@ class Word(object):
 class Pronunciation(object):
 
     def __init__(self, phonemes):
-        self._phonemes = phonemes
+        self._phonemes = list(phonemes)
 
     def __contains__(self, obj):
         try:
@@ -55,6 +65,19 @@ class Pronunciation(object):
     def __repr__(self):
         return '<Pronunciation "{}">'.format(str(self))
 
+    def __iter__(self):
+        return iter(self._phonemes)
+
+    def __eq__(self, other):
+        return (type(self) is type(other) and
+            self._phonemes == other._phonemes)
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
 
 class SoundPairing(object):
-    pass
+
+    def __init__(self, word, pronunciation):
+        self.word = Word(word)
+        self.pronunciation = Pronunciation(pronunciation)

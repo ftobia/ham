@@ -3,6 +3,13 @@ import pytest
 
 class TestWord(object):
 
+    def test_constructor(self):
+        from ham import Word
+        slap = Word('slap')
+        slap2 = Word(slap)
+        assert slap == slap2
+        assert slap is not slap2
+
     def test_str(self):
         from ham import Word
         assert str(Word('foo')) == 'foo'
@@ -10,6 +17,15 @@ class TestWord(object):
     def test_repr(self):
         from ham import Word
         assert repr(Word('foo')) == '<Word "foo">'
+
+    def test_iter(self):
+        from ham import Word
+        word = Word('hello')
+        i = iter(word)
+        assert ''.join(i) == 'hello'
+        with pytest.raises(StopIteration):
+            next(i)
+        assert ''.join(word) == 'hello'
 
     def test_contains(self):
         from ham import Word
@@ -22,6 +38,20 @@ class TestWord(object):
         assert 'b' not in foo
         assert 'of' not in foo
         assert 'foof' not in foo
+
+    def test_eq(self):
+        from ham import Word
+        foo = Word('foo')
+        assert foo == foo
+        assert foo == Word('foo')
+        assert foo == Word(foo)
+        assert not (foo == Word('monkey'))
+
+    def test_ne(self):
+        from ham import Word
+        assert Word('monkey') != Word('butler')
+        assert Word('monkey') != 'monkey'
+        assert not (Word('monkey') != Word('monkey'))
 
     def test_pop(self):
         from ham import Word
@@ -65,6 +95,13 @@ class TestWord(object):
 
 class TestPronunciation(object):
 
+    def test_constructor(self):
+        from ham import Pronunciation
+        ink = Pronunciation(['IH1', 'NG', 'K'])
+        ink2 = Pronunciation(ink)
+        assert ink == ink2
+        assert ink is not ink2
+
     def test_str(self):
         from ham import Pronunciation
         assert str(Pronunciation(['HH', 'AO1', 'NG', 'K'])) == 'HH AO1 NG K'
@@ -73,6 +110,16 @@ class TestPronunciation(object):
         from ham import Pronunciation
         assert repr(Pronunciation(['M', 'AH1', 'NG', 'K', 'IY0'])) == \
             '<Pronunciation "M AH1 NG K IY0">'
+
+    def test_iter(self):
+        from ham import Pronunciation
+        phonemes = ['G', 'L', 'AE1', 'S']
+        pronunciation = Pronunciation(phonemes)
+        i = iter(pronunciation)
+        assert list(i) == phonemes
+        with pytest.raises(StopIteration):
+            next(i)
+        assert list(pronunciation) == phonemes
 
     def test_contains(self):
         from ham import Pronunciation
@@ -92,6 +139,55 @@ class TestPronunciation(object):
         word = Pronunciation(['W', 'ER1', 'D'])
         assert None not in word
         assert word not in word
+
+    # def test_eq(self):
+    #     from ham import Word
+    #     foo = Word('foo')
+    #     assert foo == foo
+    #     assert foo == Word('foo')
+    #     assert not (foo == Word('monkey'))
+
+    # def test_ne(self):
+    #     from ham import Word
+    #     assert Word('monkey') != Word('butler')
+    #     assert Word('monkey') != 'monkey'
+    #     assert not (Word('monkey') != Word('monkey'))
+
+    def test_eq(self):
+        from ham import Pronunciation
+        hello = Pronunciation(['HH', 'AH0', 'L', 'OW1'])
+        assert hello == hello
+        assert hello == Pronunciation(hello)
+        assert hello == Pronunciation(['HH', 'AH0', 'L', 'OW1'])
+        assert not (hello == Pronunciation(['G', 'UH2', 'D', 'B', 'AY1']))
+
+    def test_ne(self):
+        from ham import Pronunciation
+        assert Pronunciation(['HH', 'AH0', 'L', 'OW1']) != \
+            Pronunciation(['G', 'UH2', 'D', 'B', 'AY1'])
+        assert Pronunciation(['HH', 'AH0', 'L', 'OW1']) != \
+            ['HH', 'AH0', 'L', 'OW1']
+        assert not (Pronunciation(['HH', 'AH0', 'L', 'OW1']) !=
+            Pronunciation(['HH', 'AH0', 'L', 'OW1']))
+
+
+class TestSoundPairing(object):
+
+    def test_constructor(self):
+        from ham import Word, Pronunciation, SoundPairing
+        color = 'color'
+        k_ah1_l_er0 = ['K', 'AH1', 'L', 'ER0']
+        word = Word(color)
+        pronunciation = Pronunciation(k_ah1_l_er0)
+        p1 = SoundPairing(word=color, pronunciation=k_ah1_l_er0)
+        p2 = SoundPairing(word=color, pronunciation=pronunciation)
+        p3 = SoundPairing(word=word, pronunciation=k_ah1_l_er0)
+        p4 = SoundPairing(word=word, pronunciation=pronunciation)
+        for pairing in [p1, p2, p3, p4]:
+            assert pairing.word == Word(color)
+            assert pairing.word is not word
+            assert pairing.pronunciation == Pronunciation(k_ah1_l_er0)
+            assert pairing.pronunciation is not pronunciation
 
 
 class TestSymbols(object):
