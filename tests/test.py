@@ -168,7 +168,7 @@ class TestPronunciation(object):
         assert Pronunciation(['HH', 'AH0', 'L', 'OW1']) != \
             ['HH', 'AH0', 'L', 'OW1']
         assert not (Pronunciation(['HH', 'AH0', 'L', 'OW1']) !=
-            Pronunciation(['HH', 'AH0', 'L', 'OW1']))
+                    Pronunciation(['HH', 'AH0', 'L', 'OW1']))
 
 
 class TestSoundPairing(object):

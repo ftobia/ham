@@ -70,7 +70,7 @@ class Pronunciation(object):
 
     def __eq__(self, other):
         return (type(self) is type(other) and
-            self._phonemes == other._phonemes)
+                self._phonemes == other._phonemes)
 
     def __ne__(self, other):
         return not self.__eq__(other)
