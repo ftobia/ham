@@ -63,19 +63,50 @@ class TestWord(object):
         assert len(w) == len(monkey) - len(key)
 
 
+class TestPronunciation(object):
+
+    def test_str(self):
+        from ham import Pronunciation
+        assert str(Pronunciation(['HH', 'AO1', 'NG', 'K'])) == 'HH AO1 NG K'
+
+    def test_repr(self):
+        from ham import Pronunciation
+        assert repr(Pronunciation(['M', 'AH1', 'NG', 'K', 'IY0'])) == \
+            '<Pronunciation "M AH1 NG K IY0">'
+
+    def test_contains(self):
+        from ham import Pronunciation
+        from ham.symbols import AH, AH0, AH1, AH2, IY, IY0, IY1, IY2
+        monkey = Pronunciation(['M', 'AH1', 'NG', 'K', 'IY0'])
+        assert AH in monkey
+        assert AH0 not in monkey
+        assert AH1 in monkey
+        assert AH2 not in monkey
+        assert IY in monkey
+        assert IY0 in monkey
+        assert IY1 not in monkey
+        assert IY2 not in monkey
+
+    def test_contains_incorrect_types(self):
+        from ham import Pronunciation
+        word = Pronunciation(['W', 'ER1', 'D'])
+        assert None not in word
+        assert word not in word
+
+
 class TestSymbols(object):
 
     def test(self):
         from ham.symbols import *
         symbols = ['AA', 'AA0', 'AA1', 'AA2', 'AE', 'AE0', 'AE1', 'AE2', 'AH',
-            'AH0', 'AH1', 'AH2', 'AO', 'AO0', 'AO1', 'AO2', 'AW', 'AW0', 'AW1',
-            'AW2', 'AY', 'AY0', 'AY1', 'AY2', 'B', 'CH', 'D', 'DH', 'EH', 'EH0',
-            'EH1', 'EH2', 'ER', 'ER0', 'ER1', 'ER2', 'EY', 'EY0', 'EY1', 'EY2',
-            'F', 'G', 'HH', 'IH', 'IH0', 'IH1', 'IH2', 'IY', 'IY0', 'IY1',
-            'IY2', 'JH', 'K', 'L', 'M', 'N', 'NG', 'OW', 'OW0', 'OW1', 'OW2',
-            'OY', 'OY0', 'OY1', 'OY2', 'P', 'R', 'S', 'SH', 'T', 'TH', 'UH',
-            'UH0', 'UH1', 'UH2', 'UW', 'UW0', 'UW1', 'UW2', 'V', 'W', 'Y', 'Z',
-            'ZH']
+                   'AH0', 'AH1', 'AH2', 'AO', 'AO0', 'AO1', 'AO2', 'AW', 'AW0',
+                   'AW1', 'AW2', 'AY', 'AY0', 'AY1', 'AY2', 'B', 'CH', 'D',
+                   'DH', 'EH', 'EH0', 'EH1', 'EH2', 'ER', 'ER0', 'ER1', 'ER2',
+                   'EY', 'EY0', 'EY1', 'EY2', 'F', 'G', 'HH', 'IH', 'IH0',
+                   'IH1', 'IH2', 'IY', 'IY0', 'IY1', 'IY2', 'JH', 'K', 'L',
+                   'M', 'N', 'NG', 'OW', 'OW0', 'OW1', 'OW2', 'OY', 'OY0',
+                   'OY1', 'OY2', 'P', 'R', 'S', 'SH', 'T', 'TH', 'UH', 'UH0',
+                   'UH1', 'UH2', 'UW', 'UW0', 'UW1', 'UW2', 'V', 'W', 'Y', 'Z',
+                   'ZH']
         for symbol in symbols:
             assert symbol in locals()
-

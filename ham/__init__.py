@@ -1,4 +1,5 @@
 from ._version import __version__
+from .symbols import *
 
 FILL_CHAR = '.'
 
@@ -28,3 +29,32 @@ class Word(object):
         chunk = self._letters[s]
         self._letters[s] = FILL_CHAR * len(seq)
         return ''.join(chunk)
+
+
+class Pronunciation(object):
+
+    def __init__(self, phonemes):
+        self._phonemes = phonemes
+
+    def __contains__(self, obj):
+        try:
+            last_item = obj[-1]
+        except TypeError:
+            return False
+        if last_item in '012':
+            return obj in self._phonemes
+        else:
+            for phoneme in self._phonemes:
+                if obj in phoneme:
+                    return True
+            return False
+
+    def __str__(self):
+        return ' '.join(self._phonemes)
+
+    def __repr__(self):
+        return '<Pronunciation "{}">'.format(str(self))
+
+
+class SoundPairing(object):
+    pass
