@@ -40,6 +40,20 @@ class Word(object):
         self._letters[s] = FILL_CHAR * len(seq)
         return ''.join(chunk)
 
+    def vowel_groups(self):
+        vowels = 'aeiouy'
+        word = str(self)
+        acc = []
+        for letter in word:
+            if letter in vowels:
+                acc.append(letter)
+            else:
+                if acc:
+                    yield ''.join(acc)
+                    acc = []
+        if acc:
+            yield ''.join(acc)
+
 
 class Pronunciation(object):
 
@@ -67,6 +81,9 @@ class Pronunciation(object):
 
     def __iter__(self):
         return iter(self._phonemes)
+
+    def __len__(self):
+        return len(self._phonemes)
 
     def __eq__(self, other):
         return (type(self) is type(other) and

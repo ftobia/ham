@@ -92,6 +92,16 @@ class TestWord(object):
         w.pop(key)
         assert len(w) == len(monkey) - len(key)
 
+    def test_vowel_groups(self):
+        from ham import Word
+        assert list(Word('hello').vowel_groups()) == ['e', 'o']
+        assert list(Word('monkey').vowel_groups()) == ['o', 'ey']
+        assert list(Word('toast').vowel_groups()) == ['oa']
+        assert list(Word('abomination').vowel_groups()) == \
+            ['a', 'o', 'i', 'a', 'io']
+        assert list(Word('unceremoniously').vowel_groups()) == \
+            ['u', 'e', 'e', 'o', 'iou', 'y']
+
 
 class TestPronunciation(object):
 
@@ -140,19 +150,6 @@ class TestPronunciation(object):
         assert None not in word
         assert word not in word
 
-    # def test_eq(self):
-    #     from ham import Word
-    #     foo = Word('foo')
-    #     assert foo == foo
-    #     assert foo == Word('foo')
-    #     assert not (foo == Word('monkey'))
-
-    # def test_ne(self):
-    #     from ham import Word
-    #     assert Word('monkey') != Word('butler')
-    #     assert Word('monkey') != 'monkey'
-    #     assert not (Word('monkey') != Word('monkey'))
-
     def test_eq(self):
         from ham import Pronunciation
         hello = Pronunciation(['HH', 'AH0', 'L', 'OW1'])
@@ -169,6 +166,13 @@ class TestPronunciation(object):
             ['HH', 'AH0', 'L', 'OW1']
         assert not (Pronunciation(['HH', 'AH0', 'L', 'OW1']) !=
                     Pronunciation(['HH', 'AH0', 'L', 'OW1']))
+
+    def test_len(self):
+        from ham import Pronunciation
+        assert len(Pronunciation(['AH0'])) == 1
+        assert len(Pronunciation(['HH', 'AY1'])) == 2
+        assert len(Pronunciation(['G', 'L', 'OW1'])) == 3
+        assert len(Pronunciation(['K', 'L', 'IH1', 'P'])) == 4
 
 
 class TestSoundPairing(object):
