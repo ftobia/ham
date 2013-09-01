@@ -13,7 +13,7 @@ class Word(object):
         return ''.join(self._letters)
 
     def __repr__(self):
-        return '<Word "{!s}">'.format(self)
+        return '<Word "{0!s}">'.format(self)
 
     def __iter__(self):
         return iter(self._letters)
@@ -33,7 +33,7 @@ class Word(object):
 
     def pop(self, seq):
         if seq not in self:
-            raise ValueError('"{!s}" is not in word'.format(seq))
+            raise ValueError('"{0!s}" is not in word'.format(seq))
         index = str(self).find(seq)
         s = slice(index, index + len(seq))
         chunk = self._letters[s]
@@ -63,7 +63,7 @@ class Pronunciation(object):
         return ' '.join(self._phonemes)
 
     def __repr__(self):
-        return '<Pronunciation "{}">'.format(str(self))
+        return '<Pronunciation "{0}">'.format(str(self))
 
     def __iter__(self):
         return iter(self._phonemes)

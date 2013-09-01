@@ -68,7 +68,7 @@ class TestWord(object):
         w = Word('foo')
         with pytest.raises(ValueError) as excinfo:
             w.pop('a')
-        assert excinfo.value.message == '"a" is not in word'
+        assert str(excinfo.value) == '"a" is not in word'
 
     def test_pop_single_letter_from_middle_of_word(self):
         from ham import Word
@@ -193,7 +193,7 @@ class TestSoundPairing(object):
 class TestSymbols(object):
 
     def test(self):
-        from ham.symbols import *
+        from ham.symbols import __all__
         symbols = ['AA', 'AA0', 'AA1', 'AA2', 'AE', 'AE0', 'AE1', 'AE2', 'AH',
                    'AH0', 'AH1', 'AH2', 'AO', 'AO0', 'AO1', 'AO2', 'AW', 'AW0',
                    'AW1', 'AW2', 'AY', 'AY0', 'AY1', 'AY2', 'B', 'CH', 'D',
@@ -204,5 +204,4 @@ class TestSymbols(object):
                    'OY1', 'OY2', 'P', 'R', 'S', 'SH', 'T', 'TH', 'UH', 'UH0',
                    'UH1', 'UH2', 'UW', 'UW0', 'UW1', 'UW2', 'V', 'W', 'Y', 'Z',
                    'ZH']
-        for symbol in symbols:
-            assert symbol in locals()
+        assert set(__all__) == set(symbols)
