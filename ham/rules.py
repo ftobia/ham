@@ -1,0 +1,17 @@
+
+def match_ng(pairing):
+    most_recent_index = 0
+    while 'ng' in pairing.word and 'NG' in pairing.pronunciation:
+        pairing.word.pop('ng')
+        index = list(pairing.pronunciation).index('NG', most_recent_index)
+        most_recent_index = index + 1
+        pairing.graphemes[index] += 'ng'
+
+
+def match_p(pairing):
+    most_recent_index = 0
+    while 'p' in pairing.word and 'P' in pairing.pronunciation:
+        pairing.word.pop('p')
+        index = list(pairing.pronunciation).index('P', most_recent_index)
+        most_recent_index = index + 1
+        pairing.graphemes[index] += 'p'
