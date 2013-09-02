@@ -5,7 +5,7 @@ def match_ng(pairing):
         pairing.word.pop('ng')
         index = pairing.pronunciation.index('NG', most_recent_index)
         most_recent_index = index + 1
-        pairing.graphemes[index] += 'ng'
+        pairing.phonograms[index] += 'ng'
 
 
 def match_p(pairing):
@@ -14,4 +14,8 @@ def match_p(pairing):
         pairing.word.pop('p')
         index = pairing.pronunciation.index('P', most_recent_index)
         most_recent_index = index + 1
-        pairing.graphemes[index] += 'p'
+        pairing.phonograms[index] += 'p'
+
+
+def match_equal_phonemes_and_letters(pairing):
+    pass

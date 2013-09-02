@@ -106,4 +106,4 @@ class SoundPairing(object):
     def __init__(self, word, pronunciation):
         self.word = Word(word)
         self.pronunciation = Pronunciation(pronunciation)
-        self.graphemes = [''] * len(self.pronunciation)
+        self.phonograms = [''] * len(self.pronunciation)
