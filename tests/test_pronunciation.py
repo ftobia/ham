@@ -71,3 +71,37 @@ class TestPronunciation(object):
         assert len(Pronunciation(['HH', 'AY1'])) == 2
         assert len(Pronunciation(['G', 'L', 'OW1'])) == 3
         assert len(Pronunciation(['K', 'L', 'IH1', 'P'])) == 4
+
+    def test_index(self):
+        from ham import Pronunciation
+        p = Pronunciation(['M', 'IH2', 'S', 'IH0', 'S', 'IH1', 'P', 'IY0'])
+        assert p.index('M') == 0
+        assert p.index('S') == 2
+        assert p.index('S', 1) == 2
+        assert p.index('S', 2) == 2
+        assert p.index('S', 3) == 4
+        assert p.index('S', 4) == 4
+        with pytest.raises(ValueError) as excinfo1:
+            p.index('S', 5)
+        assert str(excinfo1.value) == "'S' is not in pronunciation"
+        with pytest.raises(ValueError) as excinfo2:
+            p.index('K')
+        assert str(excinfo2.value) == "'K' is not in pronunciation"
+        assert p.index('IH2') == 1
+        with pytest.raises(ValueError) as excinfo3:
+            p.index('IH2', 2)
+        assert str(excinfo3.value) == "'IH2' is not in pronunciation"
+        assert p.index('IH0') == 3
+        with pytest.raises(ValueError) as excinfo4:
+            p.index('IH0', 4)
+        assert str(excinfo4.value) == "'IH0' is not in pronunciation"
+        assert p.index('IH1') == 5
+        with pytest.raises(ValueError) as excinfo5:
+            p.index('IH1', 6)
+        assert str(excinfo5.value) == "'IH1' is not in pronunciation"
+        assert p.index('IH') == 1
+        assert p.index('IH', 2) == 3
+        assert p.index('IH', 4) == 5
+        with pytest.raises(ValueError) as excinfo6:
+            p.index('IH', 6)
+        assert str(excinfo6.value) == "'IH' is not in pronunciation"

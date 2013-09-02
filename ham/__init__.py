@@ -92,6 +92,14 @@ class Pronunciation(object):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    def index(self, value, start=0):
+        for i, phoneme in enumerate(self._phonemes):
+            if i < start:
+                continue
+            if value in phoneme:
+                return i
+        raise ValueError("'{0!s}' is not in pronunciation".format(value))
+
 
 class SoundPairing(object):
 
