@@ -1,0 +1,10 @@
+# silent letters
+debt
+subtle
+
+# grapheme reversal
+article
+
+# two phonemes per letter
+six
+(lots of words with x in them)
