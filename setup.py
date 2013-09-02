@@ -15,7 +15,7 @@ setup(
     name=package_name,
     description='Tools for syllable replacement',
     version=__version__,
-    #url='',
+    url='https://github.com/ftobia/ham',
     license='MIT license',
     author='Frank Tobia',
     install_requires=['nltk'],
