@@ -3,7 +3,6 @@ Ham: phoneme and grapheme toolkit
 
 Ham provides functionality on top of the CMU Pronouncing Dictionary (http://www.speech.cs.cmu.edu/cgi-bin/cmudict), to manipulate words and pronunciations.
 
-Why Ham?
---------
+Documentation is available at http://ham.readthedocs.org
 
-I promised myself that I would name my first open source project "Ham".
+Project home page: http://github.com/ftobia/ham
