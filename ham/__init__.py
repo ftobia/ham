@@ -1,3 +1,10 @@
+"""
+Ham is a toolkit for manipulating words, pronunciations, and phonemes.
+
+.. testsetup::
+
+    from ham import Pronunciation, Word
+"""
 from ._version import __version__
 from .symbols import *
 
@@ -5,6 +12,9 @@ FILL_CHAR = '.'
 
 
 class Word(object):
+    """
+    Encapsulates a word.
+    """
 
     def __init__(self, word):
         self._letters = list(word)
@@ -32,6 +42,19 @@ class Word(object):
         return len(str(self).replace(FILL_CHAR, ''))
 
     def pop(self, seq):
+        """
+        Return and remove a letter or sequence of letters.
+
+        .. doctest::
+
+            >>> hello = Word('hello')
+            >>> hello.pop('el')
+            'el'
+            >>> str(hello)
+            'h..lo'
+
+        If seq does not exist, raise a ValueError.
+        """
         if seq not in self:
             raise ValueError('"{0!s}" is not in word'.format(seq))
         index = str(self).find(seq)
@@ -41,6 +64,14 @@ class Word(object):
         return ''.join(chunk)
 
     def vowel_groups(self):
+        """
+        Generator that yields consecutive groups of vowels.
+
+        .. doctest::
+
+            >>> list(Word('onomatopoeia').vowel_groups())
+            ['o', 'o', 'a', 'o', 'oeia']
+        """
         vowels = 'aeiouy'
         word = str(self)
         acc = []
@@ -56,11 +87,30 @@ class Word(object):
 
 
 class Pronunciation(object):
+    """
+    A wrapper around a list of phonemes.
+    """
 
     def __init__(self, phonemes):
         self._phonemes = list(phonemes)
 
     def __contains__(self, obj):
+        """
+        Checks if a phoneme is in this pronunciation.
+
+        If the phoneme is an unstressed vowel, that phoneme will be compared
+        against contained vowels without regard to stress. Otherwise, if the
+        phoneme is a stressed vowel sound, the stress will be taken into
+        account.
+
+        .. doctest::
+
+            >>> 'AA' in Pronunciation(['B', 'AA1', 'R', 'N'])
+            True
+
+            >>> 'AW0' in Pronunciation(['B', 'R', 'AW1', 'N'])
+            False
+        """
         try:
             last_item = obj[-1]
         except TypeError:
@@ -93,6 +143,18 @@ class Pronunciation(object):
         return not self.__eq__(other)
 
     def index(self, value, start=0):
+        """
+        Return the first index of value, starting at the start index given.
+
+        If an unstressed vowel is given, will return the first index with that
+        vowel sound regardless of stress. Otherwise index will only find a
+        vowel sound with identical stress.
+
+        .. doctest::
+
+            >>> Pronunciation(['B', 'AA1', 'R', 'N']).index('AA')
+            1
+        """
         for i, phoneme in enumerate(self._phonemes):
             if i < start:
                 continue
@@ -102,6 +164,10 @@ class Pronunciation(object):
 
 
 class SoundPairing(object):
+    """
+    A SoundPairing is for mapping a word with a pronunciation. It is used as an
+    intermediate step for breaking a word into its phonograms.
+    """
 
     def __init__(self, word, pronunciation):
         self.word = Word(word)

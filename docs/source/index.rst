@@ -13,9 +13,23 @@ Why Ham?
 
 I promised myself that I would name my first open source project "Ham".
 
+
+Overview
+-----------------
+This is an overview. Full API docs can be found :doc:`here </api>`.
+
+.. automodule:: ham
+    :members:
+    :noindex:
+
+
+Table of contents
+-----------------
+
 .. toctree::
    :maxdepth: 2
 
+   api
 
 
 Indices and tables
@@ -24,4 +38,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
