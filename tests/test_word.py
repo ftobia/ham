@@ -90,3 +90,19 @@ class TestWord(object):
             ['a', 'o', 'i', 'a', 'io']
         assert list(Word('unceremoniously').vowel_groups()) == \
             ['u', 'e', 'e', 'o', 'iou', 'y']
+
+    @pytest.mark.skipif('sys.version_info >= (3,0)')
+    def test_pronunciations(self):
+        from ham import Pronunciation
+        assert Word('meow').pronunciations() == \
+            [Pronunciation(['M', 'IY0', 'AW1'])]
+        assert Word('tomato').pronunciations() == [
+            Pronunciation(['T', 'AH0', 'M', 'EY1', 'T', 'OW2']),
+            Pronunciation(['T', 'AH0', 'M', 'AA1', 'T', 'OW2'])
+        ]
+        assert Word('resume').pronunciations() == [
+            Pronunciation(['R', 'IH0', 'Z', 'UW1', 'M']),
+            Pronunciation(['R', 'IY0', 'Z', 'UW1', 'M']),
+            Pronunciation(['R', 'EH1', 'Z', 'AH0', 'M', 'EY2'])
+        ]
+        assert Word('googus').pronunciations() == []

@@ -11,6 +11,37 @@ from .symbols import *
 FILL_CHAR = '.'
 
 
+class NLTKModuleNotFound(Exception):
+    pass
+
+
+class CMUDictCache(object):
+    _has_nltk = None
+    _cmudict = None
+
+    @property
+    def has_nltk(self):
+        if self._has_nltk is None:
+            try:
+                import nltk
+            except ImportError:
+                self._has_nltk = False
+            else:
+                self._has_nltk = True
+        return self._has_nltk
+
+    @property
+    def cmudict(self):
+        if not self.has_nltk:
+            raise NLTKModuleNotFound
+        if self._cmudict is None:
+            import nltk.corpus
+            self._cmudict = nltk.corpus.cmudict.dict()
+        return self._cmudict
+
+cache = CMUDictCache()
+
+
 class Word(object):
     """
     Encapsulates a word.
@@ -84,6 +115,29 @@ class Word(object):
                     acc = []
         if acc:
             yield ''.join(acc)
+
+    def pronunciations(self):
+        """
+        Returns a list of Pronunciations for the word.
+
+        Looks the word up in the CMU pronouncing dictionary
+        (http://www.speech.cs.cmu.edu/cgi-bin/cmudict)
+
+        If the word does not exist in the pronouncing dictionary,
+        return an empty list.
+
+        .. doctest::
+
+            >>> Word('hungry').pronunciations()
+            [<Pronunciation "HH AH1 NG G R IY0">]
+            >>> Word('chewbacca').pronunciations()
+            []
+        """
+        try:
+            pronunciations = cache.cmudict[str(self)]
+        except KeyError:
+            return []
+        return [Pronunciation(p) for p in pronunciations]
 
 
 class Pronunciation(object):
